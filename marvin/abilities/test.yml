@@ -1,0 +1,10 @@
+en:
+  testing:
+    query:
+      regex: '.*\bfoobar\b.*'
+      examples:
+        - "Foobar"
+    response:
+      - say: "Yay"
+        set: "up"
+        act: "like a hero"

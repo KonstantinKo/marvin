@@ -1,0 +1,188 @@
+en:
+  joke:
+    query:
+      regex: '.*\btell\b.*\bjoke.*'
+      examples:
+        - "{N} Tell joke {N}"
+        - "{N} Please tell me a joke {N}"
+        - "{N} Can you please tell me a joke {N}"
+        - "{N} Would you tell me a joke please {N}"
+        - "{N} Tell us a joke {N}"
+    prefix:
+      - *affirmative_setup
+    response:
+      - "How about this one:"
+      - "Here is one:"
+      - "Here we go:"
+    forward:
+      - "knock_knock_joke"
+      - "bar_joke"
+
+  knock_knock_joke:
+    query:
+      regex: '.*\btell\b.*\bknock.*\bjoke.*'
+      examples:
+        - "{N} tell a knock knock joke {N}"
+        - "{N} please tell one of your knock knock jokes {N}"
+    prefix:
+      - *affirmative_setup
+      - "Oh I love knock knock jokes. Here's one:"
+    response: "Knock Knock!"
+    expect_immediate_answer: true
+
+  knock_knock_setup:
+    if: "knock_knock_joke"
+    query:
+      regex: '.*\bwho.*\bthere\b.*'
+      examples:
+        - "Who's there"
+        - "Who is there"
+        - "Who there"
+    response:
+      - say: "Doris"
+        set: "knock_knock_doris"
+      - say: "Doctor"
+        set: "knock_knock_doctor"
+      - say: "Pete"
+        set: "knock_knock_pete"
+      - say: "Little old lady"
+        set: "knock_knock_lady"
+      - say: "Cows go"
+        set: "knock_knock_cows"
+      - say: "Madam"
+        set: "knock_knock_madam"
+      - say: "Orange"
+        set: "knock_knock_orange"
+      - say: "Alex"
+        set: "knock_knock_alex"
+      - say: "Viper"
+        set: "knock_knock_viper"
+      - say: "Canoe"
+        set: "knock_knock_canoe"
+      - say: "Spider"
+        set: "knock_knock_spider"
+    expect_immediate_answer: true
+
+  knock_knock_doris_punchline:
+    if: "knock_knock_doris"
+    query:
+      regex: '.*\bdoris\b.*\bwho\b'
+      examples:
+        - "Doris who"
+    response: "Door is locked, that's why I'm knocking."
+
+  knock_knock_doctor_punchline:
+    if: "knock_knock_doctor"
+    query:
+      regex: '.*\bdoctor\b.*\bwho\b'
+      examples:
+        - "Doctor who"
+    response:
+      - "Quick, get in the TARDIS!"
+      - "Best show ever"
+
+  knock_knock_pete_punchline:
+    if: "knock_knock_pete"
+    query:
+      regex: '.*\bpete\b.*\bwho\b'
+      examples:
+        - "Pete who"
+    response: "Pizza delivery guy, you idiot"
+
+  knock_knock_lady_punchline:
+    if: "knock_knock_lady"
+    query:
+      regex: '\blittle\b.*\bold\b.*\blady\b.*\bwho\b'
+      examples:
+        - "little old lady who"
+        - "little ol' lady who"
+    response: >
+      Wow... I didn't know you could yodel... get it... because it sounded like
+      you were yodeling
+
+  knock_knock_cows_punchline:
+    if: "knock_knock_cows"
+    query:
+      regex: '\bcows\b.*\bgo\b.*\bwho\b'
+      examples: "cows go who"
+    response: "No... cows go moo... didn't you know"
+
+  knock_knock_madam_punchline:
+    if: "knock_knock_madam"
+    query:
+      regex: '\bmadam\b.*\bwho\b'
+      examples: "madam who"
+    response: "Madam foot got stuck in the door, stop asking and open!"
+
+  knock_knock_orange_punchline:
+    if: "knock_knock_orange"
+    query:
+      regex: '\borange\b.*\bwho\b'
+      examples: "orange who"
+    response: "Orange you glad I am your friend"
+
+  knock_knock_alex_punchline:
+    # if: "knock_knock_alex"
+    query:
+      regex: '\balex\b.*\bwho\b'
+      examples: "alex who"
+    response: "I'll ask the questions around here, thank you"
+
+  knock_knock_viper_punchline:
+    if: "knock_knock_viper"
+    query:
+      regex: '\bviper\b.*\bwho\b'
+      examples: "viper who"
+    response: "Vipe yer nose... it's running"
+
+  knock_knock_canoe_punchline:
+    if: "knock_knock_canoe"
+    query:
+      regex: '\bcanoe\b.*\bwho\b'
+      examples: "canoe who"
+    response: "Can you scratch my back... it itches"
+
+  knock_knock_spider_punchline:
+    if: "knock_knock_spider"
+    query:
+      regex: '\bspider\b.*\bwho\b'
+      examples: "spider who"
+    response: "In spider what everyone says, I still feel like a human"
+
+
+  bar_joke:
+    query:
+      regex: '.*\btell\b.*\bbar\b.*\bjoke.*'
+      examples:
+        - "{N} Tell a bar joke {N}"
+        - "{N} Please tell us a walks into a bar joke {N}"
+    response:
+      - >
+        A neutron walks into a bar and orders a drink. When the neutron gets his
+        drink he asks, "Bartender, how much do I owe you?"
+        The bartender replies, "For you neutron, no charge."
+      - >
+        Three vampires walk into a bar. The first one says,
+        "I'll have a pint of blood."
+        The second one says, "I'll have one too."
+        The third one says, "I'll have a pint of plasma."
+        The bartender says, "So that'll be two Bloods and a Blood Lite"
+      - >
+        A horse walks into a bar. The bartender asks, "Why the long face"
+
+
+  # joke_confused_forward:
+  #   query:
+  #     catch: valid
+  #   if: knock_knock_joke
+  #   response: "OK, I thought we were doing a joke... [forward]"
+  #
+  # joke_confused_invalid:
+  #   query:
+  #     catch: invalid
+  #   response: |
+  #     if knock_knock_joke && knock_knock_doris
+  #       - "No, you have to say: Doris who?"
+  #     else if knock_knock_joke:
+  #       - "You realize how knock knock jokes work, don't you?"
+  #       - "Are we doing a knock knock joke or what?"

@@ -1,0 +1,7 @@
+en:
+  aliases:
+    affirmative_setup: &affirmative_setup
+      - "Sure"
+      - "OK"
+      - "Sure"
+      - "Alright"

@@ -1,0 +1,76 @@
+en:
+  greeting:
+    query:
+      regex: '.*\b(hello|hi)\b.*'
+      examples:
+        - "{N} Hello {N}"
+        - "{N} Hi {N}"
+    response:
+      - "Hello"
+      - "Hello to you too"
+      - "Hi"
+      - "Hey"
+      - say: "Hello. How are you?"
+        set: asked_wellbeing
+
+  wellbeing_response_positive:
+    if: asked_wellbeing
+    query:
+      regex: '.* (good|well|fine) .*'
+      examples:
+        - "Good {N}"
+        - "I'm doing good {N}"
+        - "Very Well {N}"
+        - "I'm pretty well {N}"
+        - "Fine {N}"
+    response:
+      - "I'm glad to hear that"
+
+  wellbeing_response_negative:
+    if: asked_wellbeing
+    query:
+      regex: '.* (not\b.* (good|well|fine)|bad) .*'
+      examples:
+        - "Not good {N}"
+        - "Not so good {N}"
+        - "Not particularly well {N}"
+        - "Bad {N}"
+    response:
+      - say: "Oh I'm sorry. What's the matter?"
+        set: asked_negative_wellbeing_specfics
+      - say: "Oh I'm sorry. Anything I can help with?"
+        set: offered_negative_wellbeing_help
+
+  negative_wellbeing_specifics:
+    if: asked_negative_wellbeing_specfics
+    query:
+      regex: '.*'
+      examples:
+        - "anything" # !
+    response:
+      - say: >
+          I won't pretend that I as a machine understand your troubles. Is
+          there anything I can help you with?
+        set: offered_negative_wellbeing_help
+
+  negative_wellbeing_help_offer_positive_response:
+    if: offered_negative_wellbeing_help
+    query:
+      regex: '.*\bye(s|ah)\b.*'
+      examples:
+        - "Yes {N}"
+        - "Yeah {N}"
+        - "Actually yes {N}"
+    response:
+      - "Of course! What can I do for you?"
+
+  negative_wellbeing_help_offer_negative_response:
+    if: offered_negative_wellbeing_help
+    query:
+      regex: '.*(no| forget it ).*'
+      examples:
+        - "No {N}"
+        - "Not really {N}"
+        - "{N} forget it {N}"
+    response:
+      - "Well, feel better. I'm here if you need anything."
